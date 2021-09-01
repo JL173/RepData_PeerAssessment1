@@ -8,6 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 
+
 ```r
 library(tidyverse)
 ```
@@ -59,6 +60,7 @@ activity$date <- as.Date(as.character(
 
 ## What is mean total number of steps taken per day?
 
+
 ```r
 steps <- activity %>%
   group_by(date) %>%
@@ -67,7 +69,7 @@ steps <- activity %>%
 ggplot(steps, aes(x = total)) +
   geom_histogram(bins = 9) +
   ggtitle("Distribution of Total Steps per Day") +
-  xlab("Total Steps")
+  xlab("Total Steps") + ylab("Frequency")
 ```
 
 ![](PA1_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -76,12 +78,15 @@ ggplot(steps, aes(x = total)) +
 steps_mean <- mean(steps$total)
 steps_median <- median(steps$total)
 ```
+
+
 Using the functions "mean()" and "median()" on the calculated dataframe "steps", over the column "total". We find that
 
-- Mean = 9354.2295082
-- Median = 1.0395\times 10^{4}
+- Mean = 9354.23
+- Median = 10395
 
 ## What is the average daily activity pattern?
+
 
 ```r
 interval_mean <- activity %>%
@@ -99,6 +104,8 @@ ggplot(interval_mean, aes(x = interval, y = mean)) +
 ```
 
 ![](PA1_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
 The time at which the maximum number of steps occurs is at 08:35 with 206.1698113
 
 ## Imputing missing values
@@ -130,6 +137,10 @@ steps_complete <- activity_complete %>%
   group_by(date) %>%
   summarise(total = sum(steps, na.rm=TRUE))
 
+
+steps_mean_complete <- mean(steps_complete$total)
+steps_median_complete <- median(steps_complete$total)
+
 ggplot(steps_complete, aes(x = total)) +
   geom_histogram(bins = 9) +
   ggtitle("Distribution of Total Steps per Day") +
@@ -138,12 +149,8 @@ ggplot(steps_complete, aes(x = total)) +
 
 ![](PA1_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
-```r
-steps_mean_complete <- mean(steps_complete$total)
-steps_median_complete <- median(steps_complete$total)
-```
 
-The data as missing 2304 2304 values, which is 8 days. (2304 / 288) 
+The data as missing 2304 values, which is 8 days. (2304 / 288) 
 
 We split the data into two separate dataframes, one without NA rows and the other with Only NA rows.
 
@@ -155,13 +162,14 @@ We then combine the two split dataframes back into one and sort by date then int
 
 We find that the Mean and Median of the complete data is
 
-- Mean = 9503.8688525
-- Median = 1.0395\times 10^{4}
+- Mean = 9503.869
+- Median = 10395
 
 We can see that our new values have raised the Mean, yet have had no impact on the Median.
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
 
 ```r
 # Assigning weekday name to each date
