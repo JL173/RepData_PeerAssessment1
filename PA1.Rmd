@@ -1,0 +1,58 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+## Loading and preprocessing the data
+```{r echo=TRUE}
+library(tidyverse)
+
+activity <- read.csv("activity.csv")
+
+# change type of steps to numeric and replace NA with 0
+activity$steps <- as.numeric(activity$steps) %>%
+  replace_na(0)
+
+# ensure date is interpreted as a Date
+activity$date <- as.Date(as.character(
+  strptime(activity$date, "%Y-%m-%d")))
+  
+```
+
+
+## What is mean total number of steps taken per day?
+```{r echo=TRUE, fig.width = 6, fig.height = 4}
+
+steps <- activity %>%
+  group_by(date) %>%
+  summarise(total = sum(steps))
+
+hist(steps$total, breaks = "FD",
+     main = "Distribution of Total Steps per Day",
+     xlab = "Total Steps")
+
+steps_mean <- mean(steps$total, na.rm=TRUE)
+steps_median <- median(steps$total, na.rm=TRUE)
+
+```
+Using the functions "mean()" and "median()" on the calculated dataframe "steps", over the column "total". We find that (rounded down to nearest integer)
+
+- Mean = 9354
+- Median = 10395
+
+## What is the average daily activity pattern?
+```{r echo=TRUE, fig.width = 6, fig.height = 4}
+```
+
+
+## Imputing missing values
+```{r echo=TRUE, fig.width = 6, fig.height = 4}
+```
+
+
+## Are there differences in activity patterns between weekdays and weekends?
+```{r echo=TRUE}
+```
